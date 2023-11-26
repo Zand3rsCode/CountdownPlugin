@@ -16,26 +16,32 @@ namespace Oxide.Plugins
         {
             StartCountdown();
         }
-
         private void StartCountdown()
-        {
-            Puts("Countdown started!");
+{
+    Puts("Countdown started!");
 
-            // Calculate the time until 07:00
-            DateTime currentTime = DateTime.Now;
-            DateTime targetTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 10, 0, 0);
+    // Calculate the time until 07:00
+    DateTime currentTime = DateTime.Now;
+    DateTime targetTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 17, 0, 0);
 
-            TimeSpan initialTimeRemaining = targetTime - currentTime;
+    // Check if the target time is earlier than the current time
+    if (targetTime <= currentTime)
+    {
+        // If so, set the target time for the next day
+        targetTime = targetTime.AddDays(1);
+    }
 
-            // Start a timer to output a message every hour until 1 hour is left
-            countdownTimer = timer.Repeat(60 * 60, 0, () => UpdateCountdown(targetTime));
+    TimeSpan initialTimeRemaining = targetTime - currentTime;
 
-            // If there is less than 1 hour left, adjust the timer
-            if (initialTimeRemaining.TotalSeconds <= 60 * 60)
-            {
-                timer.Once((int)initialTimeRemaining.TotalSeconds, () => AdjustTimer(targetTime));
-            }
-        }
+    // Start a timer to output a message every hour until 1 hour is left
+    countdownTimer = timer.Repeat(60 * 60, 0, () => UpdateCountdown(targetTime));
+
+    // If there is less than 1 hour left, adjust the timer
+    if (initialTimeRemaining.TotalSeconds <= 60 * 60)
+    {
+        timer.Once((int)initialTimeRemaining.TotalSeconds, () => AdjustTimer(targetTime));
+    }
+}
 
         private void UpdateCountdown(DateTime targetTime)
         {
