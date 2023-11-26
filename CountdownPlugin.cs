@@ -5,7 +5,7 @@ using Oxide.Core.Plugins;
 
 namespace Oxide.Plugins
 {
-    [Info("CountdownPlugin", "Zand3rs", "1.0.0")]
+    [Info("CountdownPlugin", "Zand3rs", "0.0.1")]
     [Description("A countdown plugin for a Rust Server")]
 
     class CountdownPlugin : RustPlugin
